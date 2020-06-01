@@ -78,11 +78,13 @@ export default class Supercluster {
         }
 
         const tree = this.trees[this._limitZoom(zoom)];
-        const ids = tree.range(lngX(minLng), latY(maxLat), lngX(maxLng), latY(minLat));
         const clusters = [];
-        for (const id of ids) {
-            const c = tree.points[id];
-            clusters.push(c.numPoints ? getClusterJSON(c) : this.points[c.index]);
+        if (tree) {
+            const ids = tree.range(lngX(minLng), latY(maxLat), lngX(maxLng), latY(minLat));
+            for (const id of ids) {
+                const c = tree.points[id];
+                clusters.push(c.numPoints ? getClusterJSON(c) : this.points[c.index]);
+            }
         }
         return clusters;
     }
